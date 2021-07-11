@@ -2,7 +2,7 @@
 """
 Created on Mon Jul  5 20:53:34 2021
 
-@author: LENOVO
+@author: Pradhan
 """
 
 import numpy as np
@@ -55,6 +55,7 @@ def main():
     <h2 style="color:white;text-align:center;">Telco_Churn</h2>
     </div>
     """ 
+    # Text Input as string
     st.markdown(html_temp,unsafe_allow_html=True)
     gender = st.text_input("gender","Type Here")
     SeniorCitizen = st.text_input("SeniorCitizen","Type Here")
