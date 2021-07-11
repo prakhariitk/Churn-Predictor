@@ -2,18 +2,20 @@
 """
 Created on Mon Jul  5 15:06:35 2021
 
-@author: LENOVO
+@author: Pradhan
 """
+
 import pandas as pd
 churn_data = pd.read_csv('Telco_Customer_Churn_Data.csv')
 churn_data
-
+#importing important libraries
 churn_data.head()
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 %matplotlib inline
+#exploring data
 churn_data.columns.values
 churn_data.dtypes
 churn_data.describe()
@@ -23,18 +25,24 @@ churn_data.info(verbose=True)
 churn_data.TotalCharges = pd.to_numeric(churn_data.TotalCharges, errors='coerce')
 churn_data.isnull().sum()
 churn_data.loc[churn_data['TotalCharges'].isnull()==True]
+#removing null values
 churn_data.dropna(how = 'any', inplace=True)
+#removing unncessary columns
 churn_data.drop(columns = ['customerID','tenure'],axis=1,inplace=True)
 churn_data.head()
 churn_data_copy = churn_data.copy()
+#plotting count plot
 for i, predictor in enumerate(churn_data.drop(columns=['Churn','TotalCharges','MonthlyCharges'])):
   plt.figure(i)
   sns.countplot(data=churn_data,x=predictor,hue='Churn')
+#converting categorical value 'churn' into binary form
 churn_data['Churn']= np.where(churn_data.Churn=='Yes',1,0)
 churn_data.head()
+#converting rest categorical values by get_dummies
 churn_data_converted = pd.get_dummies(churn_data)
 churn_data_converted.head()
 churn_data_converted.shape
+# data visualization using seaborn
 sns.lmplot(data=churn_data_converted, x='MonthlyCharges',y='TotalCharges',fit_reg=False)
 Mth = sns.kdeplot(churn_data_converted.MonthlyCharges[(churn_data_converted["Churn"] == 0) ],
                 color="Red", shade = True)
@@ -64,7 +72,7 @@ sns.heatmap(churn_data_converted.corr(), cmap="Paired")
 zero_churn_df=churn_data.loc[churn_data["Churn"]==0]
 one_churn_df=churn_data.loc[churn_data["Churn"]==1]
 
-
+#univariate analysis
 def uniplot(df,col,title,hue =None):
     
     sns.set_style('whitegrid')
